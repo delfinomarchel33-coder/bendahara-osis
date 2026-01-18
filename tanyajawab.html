@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tanya Jawab OSIS</title>
+<title>Feedback</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
@@ -77,28 +77,28 @@ h2 { text-align:center; margin-bottom:20px; color:#1e3a8a; }
 <div id="menu" class="menu">
   <a href="index.html">Beranda</a>
   <a href="laporan.html">Laporan Keuangan</a>
-  <a href="tanyajawab.html">Tanya Jawab</a>
+  <a href="tanyajawab.html">Feedback</a>
 </div>
 
 <div class="container">
-  <h2>Tanya Jawab OSIS</h2>
+  <h2>Feedback</h2>
 
   <!-- FORM PASSWORD BENDARAHA -->
   <div id="passwordForm">
-    <input type="password" id="passwordInput" placeholder="Masukkan password bendahara">
+    <input type="password" id="passwordInput" placeholder="Masukkan password untuk menjawab pertanyaan">
     <button onclick="checkPassword()">Login sebagai bendahara</button>
   </div>
 
   <!-- FORM PERTANYAAN -->
   <div class="qa-form">
-    <textarea id="question" placeholder="Tulis pertanyaan seputar keuangan OSIS..." required></textarea>
-    <button onclick="sendQuestion()">Kirim Pertanyaan</button>
+    <textarea id="question" placeholder="Tulis pertanyaan atau masukan seputar keuangan OSIS atau Website..." required></textarea>
+    <button onclick="sendQuestion()">Kirim Pertanyaan/masukan</button>
   </div>
 
   <div class="qa-list" id="qaList"></div>
 </div>
 
-<div id="toast">Terimakasih atas feedback-nya! ✅</div>
+<div id="toast">Terimakasih atas feedback-nya!</div>
 
 <script>
 const BENDARAHA_PASSWORD = "bendaharaosis123"; 
@@ -156,7 +156,7 @@ function renderQuestions(){
     card.className = "qa-card";
     card.id = `qaCard${q.id}`;
     card.innerHTML = `
-      <strong>Pertanyaan:</strong><span>${q.text}</span>
+      <strong>Pertanyaan/masukan:</strong><span>${q.text}</span>
       <small>Diajukan: ${q.questionTime}</small>
       ${isBendahara ? `<textarea id="answer${q.id}" placeholder="Tulis jawaban...">${q.answer}</textarea>
       <button onclick="submitAnswer(${q.id})">Jawab</button>` : ''}
