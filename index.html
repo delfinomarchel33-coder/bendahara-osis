@@ -2,278 +2,287 @@
 <head>  
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>BendaharaOSIS25</title>  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">  <style>  
-* {  
-  box-sizing: border-box;  
-  font-family: 'Poppins', sans-serif;  
-  margin: 0;  
-  padding: 0;  
+<title>BendaharaOSIS25</title>  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">  <style>  
+*{  
+box-sizing:border-box;  
+font-family:'Poppins',sans-serif;  
+margin:0;  
+padding:0;  
 }  
   
-html, body {  
-  height: 100%;  
-  background: linear-gradient(180deg,#e0e7ff,#f8fafc);  
-  overflow: hidden;  
+html,body{  
+height:100%;  
+background:linear-gradient(180deg,#e0e7ff,#f8fafc);  
+overflow:hidden;  
 }  
   
-/* ===== LOGIN OVERLAY ===== */  
-.login-overlay {  
-  position: fixed;  
-  inset: 0;  
-  background: rgba(255,255,255,0.55);  
-  backdrop-filter: blur(8px);  
-  display: flex;  
-  justify-content: center;  
-  align-items: center;  
-  z-index: 9999;  
+/* SPLASH */  
+@keyframes spin{  
+0%{transform:rotate(0deg);}  
+100%{transform:rotate(360deg);}  
 }  
   
-.login-box {  
-  background: rgba(255,255,255,0.9);  
-  padding: 10px;  
-  width: 85%;  
-  max-width: 360px;  
-  border-radius: 22px;  
-  text-align: center;  
-  box-shadow: 0 15px 35px rgba(0,0,0,0.12);  
+/* LOGIN */  
+.login-overlay{  
+position:fixed;  
+inset:0;  
+background:rgba(255,255,255,.55);  
+backdrop-filter:blur(8px);  
+display:flex;  
+justify-content:center;  
+align-items:center;  
+z-index:9999;  
 }  
   
-.login-box h2 {  
-  color: #1e3a8a;  
-  margin-bottom: 18px;  
+.login-box{  
+background:rgba(255,255,255,.9);  
+padding:10px;  
+width:85%;  
+max-width:360px;  
+border-radius:22px;  
+text-align:center;  
+box-shadow:0 15px 35px rgba(0,0,0,.12);  
 }  
   
-.login-box input {  
-  width: 100%;  
-  padding: 12px;  
-  border-radius: 14px;  
-  border: 1px solid #cbd5e1;  
-  font-size: 15px;  
-  margin-bottom: 14px;  
+.login-box h2{color:#1e3a8a;margin-bottom:18px;}  
+  
+.login-box input{  
+width:100%;  
+padding:12px;  
+border-radius:14px;  
+border:1px solid #cbd5e1;  
+font-size:15px;  
+margin-bottom:14px;  
 }  
   
-.login-box button {  
-  width: 100%;  
-  padding: 12px;  
-  border-radius: 14px;  
-  border: none;  
-  background: #1e3a8a;  
-  color: white;  
-  font-size: 15px;  
+.login-box button{  
+width:100%;  
+padding:12px;  
+border-radius:14px;  
+border:none;  
+background:#1e3a8a;  
+color:white;  
+font-size:15px;  
 }  
   
-.error {  
-  color: red;  
-  font-size: 13px;  
-  margin-bottom: 10px;  
-  display: none;  
+.error{color:red;font-size:13px;margin-bottom:10px;display:none;}  
+  
+#content{  
+display:block;  
+padding:16px;  
+max-width:900px;  
+margin:auto;  
 }  
   
-/* ===== KONTEN ===== */  
-#content {  
-  display: block;  
-  padding: 16px;  
-  max-width: 900px;  
-  margin: auto;  
+.locked{  
+filter:blur(6px);  
+pointer-events:none;  
+user-select:none;  
 }  
   
-.locked {  
-  filter: blur(6px);  
-  pointer-events: none;  
-  user-select: none;  
+.topbar{  
+display:flex;  
+justify-content:space-between;  
+align-items:center;  
+background:white;  
+padding:14px 16px;  
+border-radius:18px;  
+box-shadow:0 10px 25px rgba(0,0,0,.08);  
+margin-bottom:14px;  
 }  
   
-/* ===== TOPBAR ===== */  
-.topbar {  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  background: white;  
-  padding: 14px 16px;  
-  border-radius: 18px;  
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);  
-  margin-bottom: 14px;  
+.left{display:flex;align-items:center;gap:14px;}  
+  
+.burger{  
+width:44px;  
+height:44px;  
+border-radius:14px;  
+border:none;  
+background:#1e3a8a;  
+color:white;  
+font-size:22px;  
 }  
   
-.left {  
-  display: flex;  
-  align-items: center;  
-  gap: 14px;  
+.title{font-weight:600;font-size:18px;}  
+  
+.logos{display:flex;gap:10px;}  
+  
+.logos img{  
+width:40px;  
+height:40px;  
+object-fit:contain;  
+background:white;  
+padding:4px;  
+border-radius:10px;  
+box-shadow:0 4px 12px rgba(0,0,0,.12);  
 }  
   
-.burger {  
-  width: 44px;  
-  height: 44px;  
-  border-radius: 14px;  
-  border: none;  
-  background: #1e3a8a;  
-  color: white;  
-  font-size: 22px;  
+.menu{  
+display:none;  
+background:#1e3a8a;  
+border-radius:16px;  
+padding:10px;  
+margin-bottom:20px;  
 }  
   
-.title {  
-  font-weight: 600;  
-  font-size: 18px;  
+.menu a{  
+display:block;  
+color:white;  
+text-decoration:none;  
+padding:10px 12px;  
+border-radius:10px;  
+font-size:14px;  
 }  
   
-.logos {  
-  display: flex;  
-  gap: 10px;  
+.menu a:hover{background:rgba(255,255,255,.2);}  
+  
+.hero{  
+background:white;  
+padding:20px;  
+border-radius:20px;  
+text-align:center;  
+box-shadow:0 10px 25px rgba(0,0,0,.08);  
+margin-bottom:24px;  
+font-size:14px;  
+line-height:1.6;  
 }  
   
-.logos img {  
-  width: 40px;  
-  height: 40px;  
-  object-fit: contain;  
-  background: white;  
-  padding: 4px;  
-  border-radius: 10px;  
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);  
+.bendahara{  
+display:grid;  
+grid-template-columns:1fr 1fr;  
+gap:16px;  
+margin-bottom:20px;  
 }  
   
-/* ===== MENU ===== */  
-.menu {  
-  display: none;  
-  background: #1e3a8a;  
-  border-radius: 16px;  
-  padding: 10px;  
-  margin-bottom: 20px;  
+.card{  
+background:white;  
+border-radius:20px;  
+padding:18px;  
+text-align:center;  
+box-shadow:0 10px 25px rgba(0,0,0,.08);  
 }  
   
-.menu a {  
-  display: block;  
-  color: white;  
-  text-decoration: none;  
-  padding: 10px 12px;  
-  border-radius: 10px;  
-  font-size: 14px;  
+.card img{  
+width:120px;  
+height:120px;  
+border-radius:50%;  
+object-fit:cover;  
+border:4px solid #e0e7ff;  
+margin-bottom:10px;  
 }  
   
-.menu a:hover {  
-  background: rgba(255,255,255,0.2);  
+.jabatan{font-weight:600;color:#1e3a8a;font-size:14px;}  
+.nama{font-size:13px;color:#4b5563;}  
+  
+.disclaimer{  
+margin-top:24px;  
+padding:14px 16px;  
+background:#fff3cd;  
+color:#664d03;  
+border-left:5px solid #ffc107;  
+border-radius:12px;  
+font-size:14px;  
 }  
   
-/* ===== HERO ===== */  
-.hero {  
-  background: white;  
-  padding: 20px;  
-  border-radius: 20px;  
-  text-align: center;  
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);  
-  margin-bottom: 24px;  
-  font-size: 14px;  
-  line-height: 1.6;  
+/* ===== MODERN POLISH ===== */  
+  
+body{animation:fadeBody .4s ease;}  
+  
+@keyframes fadeBody{from{opacity:0}to{opacity:1}}  
+  
+.card,.hero,.topbar{animation:rise .4s ease;}  
+  
+@keyframes rise{  
+from{transform:translateY(10px);opacity:0;}  
+to{transform:none;opacity:1;}  
 }  
   
-/* ===== BENDAHARA ===== */  
-.bendahara {  
-  display: grid;  
-  grid-template-columns: 1fr 1fr;  
-  gap: 16px;  
+.card{transition:.25s;}  
+.card:active{transform:scale(.97);}  
+  
+.hero{  
+background:linear-gradient(180deg,#ffffff,#f1f5ff);  
+color:#334155;  
 }  
   
-.card {  
-  background: white;  
-  border-radius: 20px;  
-  padding: 18px;  
-  text-align: center;  
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);  
+.topbar{backdrop-filter:blur(6px);}  
+  
+.menu{animation:menuIn .25s ease;}  
+  
+@keyframes menuIn{  
+from{transform:translateY(-10px);opacity:0;}  
 }  
   
-.card img {  
-  width: 120px;  
-  height: 120px;  
-  border-radius: 50%;  
-  object-fit: cover;  
-  border: 4px solid #e0e7ff;  
-  margin-bottom: 10px;  
-}  
-  
-.jabatan {  
-  font-weight: 600;  
-  color: #1e3a8a;  
-  font-size: 14px;  
-}  
-  
-.nama {  
-  font-size: 13px;  
-  color: #4b5563;  
-}  
-  
-/* ===== DISCLAIMER ===== */  
-.disclaimer {  
-  margin-top: 24px;  
-  padding: 14px 16px;  
-  background: #fff3cd;  
-  color: #664d03;  
-  border-left: 5px solid #ffc107;  
-  border-radius: 12px;  
-  font-size: 14px;  
-}  
-</style>  </head>  <body>  <!-- LOGIN -->  <div class="login-overlay" id="loginPage">  
-  <div class="login-box">  
-    <h2>Login untuk mengakses</h2>  
-    <div class="error" id="errorMsg">Password salah</div>  
-    <input type="password" id="passwordInput" placeholder="Masukkan password">  
-    <button onclick="checkPassword()">Masuk</button>  
-  </div>  
-</div>  <!-- KONTEN -->  <div id="content" class="locked">    <div class="topbar">  
-    <div class="left">  
-      <button class="burger" onclick="toggleMenu()">☰</button>  
-      <div class="title">Bendahara OSIS</div>  
-    </div>  
-    <div class="logos">  
-      <img src="logo-sekolah.png">  
-      <img src="logo-osis.png">  
-    </div>  
-  </div>    <div id="menu" class="menu">  
-    <a href="index.html">Beranda</a>  
-    <a href="laporan.html">Laporan Keuangan</a>  
-  </div>    <div class="hero">  
-    Website ini dibuat untuk transparansi keuangan OSIS agar anggota dapat memantau pemasukan dan pengeluaran.  
-    <br><br>  
-    SMA Negeri 1 Cikande – Yonkav 19  
-  </div>    <div class="bendahara">  
-    <div class="card">  
-      <img src="bendahara1.jpg">  
-      <div class="jabatan">Bendahara 1</div>  
-      <div class="nama">Mutiara Nawang Sari</div>  
-    </div>  
-    <div class="card">  
-      <img src="bendahara2.jpg">  
-      <div class="jabatan">Bendahara 2</div>  
-      <div class="nama">Marchel Delfino Arif</div>  
-    </div>  
-  </div>    <div class="disclaimer">  
-    <b>Disclaimer:</b><br>  
-    Data keuangan dilarang disebarluaskan. Hanya untuk anggota OSIS.  
-  </div>  </div>  <script>  
-const PASSWORD = "osisyonkav19";  
+button{transition:.2s;}  
+button:active{transform:scale(.95);}  
+</style>  </head>  <body>  <div id="splash" style="position:fixed;inset:0;background:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:10000;">  
+<div style="width:40px;height:40px;border:5px solid #e5e7eb;border-top:5px solid #1e3a8a;border-radius:50%;animation:spin 1s linear infinite;"></div>  
+<p style="margin-top:10px;color:#1e3a8a;font-size:13px;">Memuat...</p>  
+</div>  <div class="login-overlay" id="loginPage">  
+<div class="login-box">  
+<h2>Login untuk mengakses</h2>  
+<div class="error" id="errorMsg">Password salah</div>  
+<input type="password" id="passwordInput" placeholder="Masukkan password">  
+<button onclick="checkPassword()">Masuk</button>  
+</div>  
+</div>  <div id="content" class="locked">  <div class="topbar">  
+<div class="left">  
+<button class="burger" onclick="toggleMenu()">☰</button>  
+<div class="title">Bendahara OSIS</div>  
+</div>  
+<div class="logos">  
+<img src="logo-sekolah.png">  
+<img src="logo-osis.png">  
+</div>  
+</div>  <div id="menu" class="menu">  
+<a href="index.html">Beranda</a>  
+<a href="laporan.html">Laporan Keuangan</a>  
+</div>  <div class="hero">  
+<h3 style="color:#1e3a8a;margin-bottom:8px;">Transparansi Keuangan OSIS</h3>  
+Website ini dibuat untuk transparansi keuangan OSIS agar anggota dapat memantau pemasukan dan pengeluaran.  
+<br><br>  
+SMA Negeri 1 Cikande – Yonkav 19  
+</div>  <div class="bendahara">  
+<div class="card">  
+<img src="bendahara1.jpg">  
+<div class="jabatan">Bendahara 1</div>  
+<div class="nama">Mutiara Nawang Sari</div>  
+</div>  <div class="card">  
+<img src="bendahara2.jpg">  
+<div class="jabatan">Bendahara 2</div>  
+<div class="nama">Marchel Delfino Arif</div>  
+</div>  
+</div>  <div class="disclaimer">  
+<b>Disclaimer:</b><br>  
+Data keuangan dilarang disebarluaskan. Hanya untuk anggota OSIS.  
+</div>  </div>  <script>  
+const PASSWORD="osisyonkav19";  
   
 function checkPassword(){  
-  if(document.getElementById("passwordInput").value === PASSWORD){  
-    localStorage.setItem("akses","true");  
-    document.getElementById("loginPage").style.display="none";  
-    document.getElementById("content").style.display="block";  
-    document.getElementById("content").classList.remove("locked");  
-    document.body.style.overflow="auto";  
-  } else {  
-    document.getElementById("errorMsg").style.display="block";  
-  }  
+if(passwordInput.value===PASSWORD){  
+sessionStorage.setItem("akses","true");  
+loginPage.style.display="none";  
+content.classList.remove("locked");  
+document.body.style.overflow="auto";  
+}else errorMsg.style.display="block";  
 }  
   
-if(localStorage.getItem("akses")){  
-  document.getElementById("loginPage").style.display="none";  
-  document.getElementById("content").style.display="block";  
-  document.getElementById("content").classList.remove("locked");  
-  document.body.style.overflow="auto";  
+if(sessionStorage.getItem("akses")){  
+loginPage.style.display="none";  
+content.classList.remove("locked");  
+document.body.style.overflow="auto";  
 }  
   
 function toggleMenu(){  
-  const menu=document.getElementById("menu");  
-  menu.style.display=menu.style.display==="block"?"none":"block";  
+menu.style.display=menu.style.display==="block"?"none":"block";  
 }  
-</script>  </body>  
-</html> 
   
-
+window.addEventListener("load",()=>setTimeout(()=>splash.style.display="none",700));  
+  
+document.addEventListener('contextmenu',e=>e.preventDefault());  
+document.addEventListener('keydown',e=>{  
+if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&e.key==="I")||(e.ctrlKey&&e.key==="U")||(e.ctrlKey&&e.shiftKey&&e.key==="C"))e.preventDefault();  
+});  
+</script>  </body>  
+</html>
