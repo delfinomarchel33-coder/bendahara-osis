@@ -6,6 +6,10 @@
 <title>Laporan Keuangan OSIS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
 * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
 body { background: linear-gradient(180deg,#e0e7ff,#f8fafc); padding:16px; }
 .topbar { display:flex; justify-content:space-between; align-items:center; background:white; padding:14px 16px; border-radius:18px; box-shadow:0 10px 25px rgba(0,0,0,0.08); margin-bottom:14px; }
@@ -31,6 +35,12 @@ h2 { text-align:center; margin-bottom:20px; color:#1e3a8a; }
 </style>
 </head>
 <body>
+
+<!-- SPLASH -->
+<div id="splash" style="position:fixed;inset:0;background:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:10000;">
+<div style="width:40px;height:40px;border:5px solid #e5e7eb;border-top:5px solid #1e3a8a;border-radius:50%;animation:spin 1s linear infinite;"></div>
+<p style="margin-top:10px;color:#1e3a8a;font-size:13px;">Memuat...</p>
+</div>
 
 <div class="topbar">
   <div class="left">
@@ -62,6 +72,12 @@ function toggleMenu(){
   const menu = document.getElementById("menu");
   menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
+// splash auto hilang
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+document.getElementById("splash").style.display="none";
+},700);
+});
 </script>
 
 </body>
