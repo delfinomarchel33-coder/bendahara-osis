@@ -1,84 +1,220 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laporan Keuangan OSIS</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-* { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
-body { background: linear-gradient(180deg,#e0e7ff,#f8fafc); padding:16px; }
-.topbar { display:flex; justify-content:space-between; align-items:center; background:white; padding:14px 16px; border-radius:18px; box-shadow:0 10px 25px rgba(0,0,0,0.08); margin-bottom:14px; }
-.left { display:flex; align-items:center; gap:14px; }
-.burger { width:44px; height:44px; border-radius:14px; border:none; background:#1e3a8a; color:white; font-size:22px; cursor:pointer; }
-.title { font-weight:600; font-size:18px; white-space:nowrap; }
-.logos { display:flex; align-items:center; gap:10px; }
-.logos img { width:40px; height:40px; object-fit:contain; background:white; padding:4px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Keuangan OSIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --kemenkeu-blue: #0a235b;
+            --kemenkeu-gold: #c5a059;
+            --kemenkeu-light: #f4f7fa;
+            --text-dark: #1a1a1a;
+        }
 
-.menu { display:none; background:#1e3a8a; border-radius:16px; padding:10px; margin-bottom:20px; }
-.menu a { display:block; color:white; text-decoration:none; padding:10px 12px; border-radius:10px; font-size:14px; }
-.menu a:hover { background: rgba(255,255,255,0.2); }
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
+        body { background: var(--kemenkeu-light); color: var(--text-dark); line-height: 1.6; }
 
-.container { max-width:900px; margin:auto; }
-h2 { text-align:center; margin-bottom:20px; color:#1e3a8a; }
-.report-card {
-  background:white; padding:18px; border-radius:20px; margin-bottom:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08); transition:0.25s;
-}
-.report-card:hover { transform:translateY(-4px); box-shadow:0 18px 35px rgba(0,0,0,0.15); }
-.report-card a { text-decoration:none; color:#1e3a8a; font-weight:600; font-size:15px; display:block; }
-.report-card span { display:block; font-size:13px; color:#555; margin-top:4px; }
-</style>
+        /* CONTENT WRAPPER */
+        #content { max-width: 900px; margin: auto; background: white; min-height: 100vh; box-shadow: 0 0 50px rgba(0,0,0,0.05); padding-bottom: 40px; }
+
+        /* TOPBAR KEMENKEU STYLE */
+        .topbar { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: white; padding: 15px 25px; border-bottom: 4px solid var(--kemenkeu-gold);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .burger { 
+            width: 40px; height: 40px; background: var(--kemenkeu-blue); 
+            color: white; border: none; font-size: 22px; cursor: pointer; border-radius: 2px;
+        }
+        .logos { display: flex; gap: 10px; align-items: center; }
+        .logos img { height: 30px; width: auto; object-fit: contain; }
+
+        .menu { display: none; background: #071a46; border-bottom: 3px solid var(--kemenkeu-gold); }
+        .menu a { display: block; color: white; text-decoration: none; padding: 15px 25px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .container { padding: 30px 20px; }
+
+        /* SUMMARY CARDS */
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .summary-card {
+            background: white; padding: 20px; border: 1px solid #e5e7eb;
+            border-top: 4px solid var(--kemenkeu-blue);
+        }
+        .summary-card p { font-size: 10px; color: #666; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .summary-card h4 { font-size: 14px; color: var(--kemenkeu-blue); margin-top: 5px; font-weight: 700; }
+
+        /* CHART SECTION */
+        .stat-card { 
+            background: white; padding: 25px; border: 1px solid #e5e7eb; 
+            margin-bottom: 30px; border-top: 4px solid var(--kemenkeu-blue);
+        }
+        .tab-container { display: flex; gap: 5px; background: #eee; padding: 4px; border-radius: 4px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 2px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+        .active-tab { background: var(--kemenkeu-blue); color: white; }
+        .inactive-tab { background: transparent; color: #777; }
+
+        .section-header { 
+            font-size: 11px; font-weight: 700; color: var(--kemenkeu-blue); 
+            margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid #eee;
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+
+        /* REPORT ITEMS */
+        .report-item {
+            background: #fff; padding: 15px; border: 1px solid #e5e7eb; 
+            display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.2s;
+        }
+        .report-item:hover { background: var(--kemenkeu-light); }
+        
+        /* Ikon Folder Grafis CSS (Tanpa Emoji) */
+        .folder-box {
+            width: 40px; height: 32px; background: #fbbf24; position: relative;
+            border-radius: 2px;
+        }
+        .folder-box::before {
+            content: ""; position: absolute; top: -5px; left: 0;
+            width: 15px; height: 10px; background: #fbbf24; border-radius: 2px;
+        }
+
+        .report-info a { text-decoration: none; color: var(--kemenkeu-blue); font-weight: 700; font-size: 13px; display: block; }
+        .report-info span { font-size: 11px; color: #888; }
+
+        /* FOOTER */
+        .copyright {
+            text-align: center; padding: 40px 20px;
+            font-size: 10px; color: #888; letter-spacing: 0.5px;
+        }
+        .copyright b { color: var(--kemenkeu-blue); }
+
+        #splash { position: fixed; inset: 0; background: white; display: flex; justify-content: center; align-items: center; z-index: 10000; }
+        .loader { width: 25px; height: 25px; border: 3px solid #eee; border-top: 3px solid var(--kemenkeu-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
 
-<!-- SPLASH -->
-<div id="splash" style="position:fixed;inset:0;background:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:10000;">
-<div style="width:40px;height:40px;border:5px solid #e5e7eb;border-top:5px solid #1e3a8a;border-radius:50%;animation:spin 1s linear infinite;"></div>
-<p style="margin-top:10px;color:#1e3a8a;font-size:13px;">Memuat...</p>
+<div id="splash"><div class="loader"></div></div>
+
+<div id="content">
+    <div class="topbar">
+        <div class="left" style="display:flex; align-items:center; gap:10px;">
+            <button class="burger" onclick="toggleMenu()">&#9776;</button>
+            <span style="font-weight:700; font-size:14px; color:var(--kemenkeu-blue); text-transform: uppercase;">Bendahara OSIS</span>
+        </div>
+        <div class="logos">
+            <img src="logo-sekolah.png" alt="Sekolah">
+            <img src="logo-osis.png" alt="OSIS">
+        </div>
+    </div>
+
+    <div id="menu" class="menu">
+        <a href="index.html">Beranda</a>
+        <a href="laporan.html">Laporan Keuangan</a>
+    </div>
+
+    <div class="container">
+        <div class="summary-grid">
+            <div class="summary-card">
+                <p>Total Saldo Kas</p>
+                <h4>Rp 4.250.000</h4>
+            </div>
+            <div class="summary-card">
+                <p>Total Saldo Ad/Art</p>
+                <h4>Rp 1.850.000</h4>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="tab-container">
+                <button id="btnKas" onclick="updateChart('kas')" class="tab-btn active-tab">Kas</button>
+                <button id="btnAdart" onclick="updateChart('adart')" class="tab-btn inactive-tab">Ad/Art</button>
+            </div>
+            <h3 id="chartTitle" style="color:var(--kemenkeu-blue); margin-bottom:20px; font-size:12px; text-align:center; font-weight:700; text-transform: uppercase;">Monthly Trend: Kas Utama</h3>
+            <canvas id="chartKeuangan" height="180"></canvas>
+        </div>
+
+        <p class="section-header">Berkas Laporan</p>
+        
+        <div class="report-item" onclick="window.open('pembukuan_classmeet2025.png', '_blank')">
+            <div class="folder-box"></div>
+            <div class="report-info">
+                <a href="#">Pembukuan Event Classmeet 2025</a>
+                <span>10 Januari 2026 • PNG Image</span>
+            </div>
+        </div>
+
+        <footer class="copyright">
+            &copy; 2026 Bendahara OSIS SMAN 1 Cikande.<br>
+            Developed since <b>Yonkav 19</b>. All Rights Reserved.
+        </footer>
+    </div>
 </div>
-
-<div class="topbar">
-  <div class="left">
-    <button class="burger" onclick="toggleMenu()">☰</button>
-    <div class="title">Bendahara OSIS</div>
-  </div>
-  <div class="logos">
-    <img src="logo-sekolah.png" alt="Logo Sekolah">
-    <img src="logo-osis.png" alt="Logo OSIS">
-  </div>
-</div>
-
-<div id="menu" class="menu">
-  <a href="index.html">Beranda</a>
-  <a href="laporan.html">Laporan Keuangan</a>
-</div>
-
-<div class="container">
-  <h2>Laporan Keuangan OSIS</h2>
-
-  <!-- Contoh List Laporan -->
-  <div class="report-card">
-    <a href="pembukuan_classmeet2025.png" target="_blank">Pembukuan event classmeet 2025</a>
-    <span>Diunggah: 10 Januari 2026</span>
-  </div>
 
 <script>
-function toggleMenu(){
-  const menu = document.getElementById("menu");
-  menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
-// splash auto hilang
-window.addEventListener("load",()=>{
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},700);
-});
-</script>
+if (!sessionStorage.getItem("akses")) { window.location.href = "index.html"; }
 
+const dataKas = {
+    label1: 'In (Rp)', label2: 'Out (Rp)',
+    val1: [500000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    val2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+};
+
+const dataAdart = {
+    label1: 'Iuran (Rp)', label2: 'Usage (Rp)',
+    val1: [6000000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    val2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+};
+
+const ctx = document.getElementById('chartKeuangan').getContext('2d');
+let currentChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+        datasets: [{
+            label: dataKas.label1, data: dataKas.val1,
+            borderColor: '#0a235b', backgroundColor: 'rgba(10,35,91,0.05)', fill: true, tension: 0.4, borderWidth: 3
+        }, {
+            label: dataKas.label2, data: dataKas.val2,
+            borderColor: '#f43f5e', borderDash: [5, 5], tension: 0.4, borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10, weight: 'bold' } } } },
+        scales: { y: { display: false }, x: { grid: { display: false } } }
+    }
+});
+
+function updateChart(type) {
+    const btnK = document.getElementById('btnKas'), btnA = document.getElementById('btnAdart'), title = document.getElementById('chartTitle');
+    if(type === 'kas'){
+        title.innerText = "Monthly Trend: Kas Utama";
+        currentChart.data.datasets[0].label = dataKas.label1;
+        currentChart.data.datasets[0].data = dataKas.val1;
+        currentChart.data.datasets[1].label = dataKas.label2;
+        currentChart.data.datasets[1].data = dataKas.val2;
+        btnK.className = "tab-btn active-tab"; btnA.className = "tab-btn inactive-tab";
+    } else {
+        title.innerText = "Monthly Trend: Iuran AD/ART";
+        currentChart.data.datasets[0].label = dataAdart.label1;
+        currentChart.data.datasets[0].data = dataAdart.val1;
+        currentChart.data.datasets[1].label = dataAdart.label2;
+        currentChart.data.datasets[1].data = dataAdart.val2;
+        btnA.className = "tab-btn active-tab"; btnK.className = "tab-btn inactive-tab";
+    }
+    currentChart.update();
+}
+
+function toggleMenu() {
+    const m = document.getElementById("menu");
+    m.style.display = m.style.display === "block" ? "none" : "block";
+}
+
+window.addEventListener("load",()=> setTimeout(()=>document.getElementById("splash").style.display="none",800));
+</script>
 </body>
 </html>
